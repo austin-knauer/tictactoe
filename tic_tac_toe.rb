@@ -4,80 +4,58 @@ class TicTacToe
   end
 
   def winner
-    row1 = @board[0]
-    row2 = @board[1]
-    row3 = @board[2]
+    n = @board.length - 1
 
-    # row checks
+    # check each row
 
-    if row1[0] == "o" && row1[1] == "o" && row1[2] == "o"
-      return "o"
+    @board.each do |row|
+      if row.uniq.length == 1 && row.uniq[0] != " "
+        return row.uniq[0]
+      end
     end
 
-    if row2[0] == "o" && row2[1] == "o" && row2[2] == "o"
-      return "o"
+   # check each column
+
+   (0..n).each do |column|
+    (1..n).each do |space|
+      if @board[space][column] == @board[space - 1][column] && @board[space][column] != " "
+        next if space != n
+        return @board[space][column]
+      else
+        break
+      end
     end
-
-    if row3[0] == "o" && row3[1] == "o" && row3[2] == "o"
-      return "o"
-    end
-
-    if row1[0] == "x" && row1[1] == "x" && row1[2] == "x"
-      return "x"
-    end
-
-    if row2[0] == "x" && row2[1] == "x" && row2[2] == "x"
-      return "x"
-    end
-
-    if row3[0] == "x" && row3[1] == "x" && row3[2] == "x"
-      return "x"
-    end
-
-    # column checks
-
-    if row1[0] == "o" && row2[0] == "o" && row3[0] == "o"
-      return "o"
-    end
-
-    if row1[1] == "o" && row2[1] == "o" && row3[1] == "o"
-      return "o"
-    end
-
-    if row1[2] == "o" && row2[2] == "o" && row3[2] == "o"
-      return "o"
-    end
-
-    if row1[0] == "x" && row2[0] == "x" && row3[0] == "x"
-      return "x"
-    end
-
-    if row1[1] == "x" && row2[1] == "x" && row3[1] == "x"
-      return "x"
-    end
-
-    if row1[2] == "x" && row2[2] == "x" && row3[2] == "x"
-      return "x"
-    end
-
-    # diagonal checks
-
-    if row1[0] == "o" && row2[1] == "o" && row3[2] == "o"
-      return "o"
-    end
-
-    if row1[2] == "o" && row2[1] == "o" && row3[0] == "o"
-      return "o"
-    end
-
-    if row1[0] == "x" && row2[1] == "x" && row3[2] == "x"
-      return "x"
-    end
-
-    if row1[2] == "x" && row2[1] == "x" && row3[0] == "x"
-      return "x"
-    end
-
-    return "draw"
   end
+
+  # check diagonals
+  
+  (1..n).each do |diag|
+    if @board[diag][diag] == @board[diag - 1][diag - 1] && @board[diag][diag] != " "
+      next if diag != n
+      return @board[diag][diag]
+    else
+      break
+    end
+  end
+  
+  (1..n).each do |diag|
+    if @board[n - diag][diag] == @board[n - diag + 1][diag - 1] && @board[n - diag][diag] != " "
+      next if diag != n
+      return @board[n - diag][diag]
+    else
+      break
+    end
+  end
+
+  # check for empty spaces 
+
+  @board.each do |row|
+    if row.include? " "
+      return "unfinished"
+    end
+  end
+
+  return "draw"
+
+  end 
 end
